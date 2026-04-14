@@ -1,0 +1,17 @@
+.env
+.DS_Store
+__pycache__/
+*.pyc
+
+venv/
+
+jobs.db
+jobs.db_backup_*.db
+data/seen_jobs.db
+data/seen_jobs.db_backup_*.db
+
+jobs.csv
+log.txt
+log.txt.*
+
+app.lock
