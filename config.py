@@ -1,0 +1,113 @@
+from pathlib import Path
+
+
+BASE_DIR = Path(__file__).resolve().parent
+
+
+APP_CONFIG = {
+    "files": {
+        "jobs_db": BASE_DIR / "jobs.db",
+        "seen_jobs_db": BASE_DIR / "data" / "seen_jobs.db",
+        "jobs_csv": BASE_DIR / "jobs.csv",
+        "log_file": BASE_DIR / "log.txt",
+    },
+    "candidate": {
+        "name": "Your Name",
+        "email": "your.email@example.com",
+        "phone": "your-phone-number",
+        "address": "Your address",
+        "experience_years": 1.3,
+        "resume_summary": (
+            "Java Backend Developer skilled in Java, Spring Boot, Microservices architecture, "
+            "REST API development, Oracle SQL, and advanced PL/SQL. Experience building enterprise "
+            "applications using Apache Tomcat, working with relational databases, writing stored "
+            "procedures, and optimizing queries. Familiar with full-stack development concepts, Git "
+            "version control, Agile development practices, and automated testing using DevPlus. "
+            "Interested in backend, microservices, cloud, and full-stack engineering roles. "
+            "Experience with web scraping automation, Python scripting, Selenium, and building tools "
+            "for job aggregation and automation. Job experience 1.3 years"
+        ),
+        "key_skills": [
+            "java",
+            "spring",
+            "spring boot",
+            "microservices",
+            "rest",
+            "gcp",
+            "ci/cd",
+            "docker",
+            "kubernetes",
+            "sql",
+            "oracle",
+            "pl/sql",
+        ],
+        "skill_weights": {
+            "java": 2,
+            "spring": 2,
+            "spring boot": 3,
+            "microservices": 3,
+            "rest": 1,
+            "gcp": 2,
+            "ci/cd": 1,
+            "docker": 2,
+            "kubernetes": 2,
+            "sql": 2,
+            "oracle": 2,
+            "pl/sql": 3,
+        },
+    },
+    "ranking": {
+        "threshold": 5,
+        "expected_min_salary": 1_000_000,
+        "expected_max_salary": 3_000_000,
+    },
+    "scrapers": {
+        "keywords": [
+            "Software Engineer",
+            "Java Developer",
+            "Backend Developer",
+            "Spring Boot Developer",
+            "Microservices Developer",
+            "Cloud Engineer",
+            "Google Cloud Engineer",
+            "SQL Developer",
+            "PL/SQL Developer",
+            "Data Engineer",
+            "Python Developer",
+            "Backend Python Developer",
+            "Full Stack Developer",
+            "API Developer",
+            "Platform Engineer",
+            "Systems Engineer",
+            "Full Stack Engineer",
+            "Junior Software Engineer",
+            "Associate Software Engineer",
+            "Fresher Software Engineer",
+        ],
+        "indeed": {
+            "location": "Bengaluru, Karnataka",
+            "radius": 35,
+            "days_old": 1,
+            "use_logged_in_profile": True,
+            "chrome_profile_dir": str(Path.home() / "my_scraper" / "selenium_profile_indeed1"),
+            "chrome_profile_name": "Default",
+        },
+        "linkedin": {
+            "locations": ["Bangalore"],
+            "date_posted": "24h",
+            "max_scrolls": 50,
+        },
+        "naukri": {
+            "location": "bengaluru",
+            "experience": "2",
+            "use_logged_in_profile": True,
+            "chrome_profile_dir": str(Path.home() / "my_scraper" / "selenium_profile"),
+        },
+    },
+    "queue": {
+        "max_size": 500,
+    },
+    "export": {
+        "interval_seconds": 60,
+    },
+}

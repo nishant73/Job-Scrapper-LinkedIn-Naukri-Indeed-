@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 node_modules/
 .next/
 out/
@@ -11,3 +12,22 @@ build/
 
 *.log
 tsconfig.tsbuildinfo
+=======
+.env
+.DS_Store
+__pycache__/
+*.pyc
+
+venv/
+
+jobs.db
+jobs.db_backup_*.db
+data/seen_jobs.db
+data/seen_jobs.db_backup_*.db
+
+jobs.csv
+log.txt
+log.txt.*
+
+app.lock
+>>>>>>> 904266b136c8173f3fde40df3881d61291798f25
