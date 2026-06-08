@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # Job Scraper Dashboard
 
 Frontend dashboard for a private job scraping pipeline that collects and scores jobs from LinkedIn, Naukri, Indeed, and future job sources.
@@ -165,30 +164,13 @@ This frontend can be pushed to the public repository:
 https://github.com/nishant73/Job-Scrapper-LinkedIn-Naukri-Indeed-
 ```
 
-The frontend `.gitignore` excludes:
-
-- `node_modules/`
-- `.next/`
-- `.env`
-- `.env.*`
-- logs
-- TypeScript build cache
+The frontend `.gitignore` excludes generated files, local env files, backend databases, backend CSV exports, logs, Python caches, and virtual environments.
 
 The private backend repository should keep credentials and scraper runtime data separate:
 
 ```text
 https://github.com/nishant73/private-job-scraper
 ```
-
-Recommended private backend ignores:
-
-- `.env`
-- `jobs.db`
-- `jobs.csv`
-- `log.txt`
-- `__pycache__/`
-- virtual environments
-- browser/session/cache files
 
 Even for a private repo, avoid committing API keys unless you deliberately want that risk.
 
@@ -197,21 +179,8 @@ Even for a private repo, avoid committing API keys unless you deliberately want 
 ```powershell
 cd "C:\Users\Nishant Chandraker\Documents\Codex\2026-06-04\help-me-di-all-the-libraries\outputs\job-scraper-dashboard"
 
-git init
-git branch -M main
-git remote add origin https://github.com/nishant73/Job-Scrapper-LinkedIn-Naukri-Indeed-.git
 git add .
-git commit -m "Connect dashboard to real scraper data"
-git push -u origin main
-```
-
-If the repo already exists locally, use:
-
-```powershell
-git remote -v
-git status
-git add .
-git commit -m "Connect dashboard to real scraper data"
+git commit -m "Clean README and gitignore"
 git push
 ```
 
@@ -233,54 +202,3 @@ If you see only popup notifications:
 
 - Keep `NEXT_PUBLIC_ENABLE_MOCK_REALTIME` unset or set to `false`.
 - Real jobs come from `/api/jobs`, not the mock realtime simulator.
-=======
-# foreverScraper
-
-Job scraping and scoring pipeline for LinkedIn, Naukri, and Indeed.
-
-## Setup
-
-1. Copy `.env.example` to `.env`
-2. Fill in your API and email credentials in `.env`
-3. Edit `config.py` to update:
-   - candidate profile
-   - resume summary
-   - key skills and skill weights
-   - score threshold
-   - scraper keywords and locations
-   - Selenium Chrome profile paths
-   - logged-in browser profile settings for Indeed and Naukri
-4. Run the project
-
-## Main User Config
-
-Most user-specific values live in `config.py`.
-
-Important sections:
-
-- `APP_CONFIG["candidate"]`
-- `APP_CONFIG["ranking"]`
-- `APP_CONFIG["scrapers"]`
-- `APP_CONFIG["files"]`
-
-## Notes For Other Users
-
-- Do not commit your real `.env`
-- Update the Selenium profile paths in `config.py` if your machine uses different Chrome profile directories
-- Indeed and Naukri are expected to run with logged-in Chrome profiles. Set `use_logged_in_profile`, `chrome_profile_dir`, and `chrome_profile_name` in `config.py` before running.【This matters especially for anti-bot checks and account-specific job visibility】
-- `jobs.db`, `jobs.csv`, and `log.txt` paths are also centralized in `config.py`
-
-## Logged-In Profiles
-
-This project uses persistent Chrome profiles for some scrapers:
-
-- Indeed: uses a logged-in Chrome profile from `APP_CONFIG["scrapers"]["indeed"]`
-- Naukri: uses a logged-in Chrome profile from `APP_CONFIG["scrapers"]["naukri"]`
-
-If another user is setting up the project, they should:
-
-1. Create or locate a Chrome user profile on their own machine
-2. Log in manually to Indeed and Naukri in that browser profile
-3. Put that local profile path into `config.py`
-4. Keep `.env` separate for API and email credentials
->>>>>>> 904266b136c8173f3fde40df3881d61291798f25
