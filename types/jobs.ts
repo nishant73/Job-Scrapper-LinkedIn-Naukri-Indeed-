@@ -1,0 +1,97 @@
+export type JobStatus =
+  | "UNAPPLIED"
+  | "APPLIED"
+  | "INTERVIEW"
+  | "REJECTED"
+  | "OFFER"
+  | "EXPIRED"
+  | "SAVED";
+
+export type ScraperSource = "LinkedIn" | "Naukri" | "Indeed" | "Company Site" | "Referral";
+
+export type ScraperStatus = "Running" | "Failed" | "Completed" | "Idle";
+
+export type WorkMode = "Remote" | "Hybrid" | "Onsite";
+
+export type Job = {
+  id: string;
+  jobTitle: string;
+  company: string;
+  location: string;
+  salary?: string;
+  salaryMin?: number;
+  salaryMax?: number;
+  experienceRequired: string;
+  employmentType: string;
+  workMode: WorkMode;
+  source: ScraperSource;
+  postedTime: string;
+  scrapedTime: string;
+  gptRelevanceScore: number;
+  matchPercentage: number;
+  applyLink: string;
+  status: JobStatus;
+  notes: string;
+  clickCount: number;
+  lastOpenedAt?: string;
+  duplicateScore?: number;
+  duplicateOf?: string;
+  description: string;
+  companyInfo: string;
+  requiredSkills: string[];
+  benefits: string[];
+  gptSummary: string;
+  gptReasoning: string;
+  scoreBreakdown: {
+    skillMatch: number;
+    salaryMatch: number;
+    experienceMatch: number;
+    overallScore: number;
+  };
+  isNew?: boolean;
+};
+
+export type ScraperMetric = {
+  source: ScraperSource;
+  jobsFound: number;
+  activeJobs: number;
+  successRate: number;
+  lastRunTime: string;
+  status: ScraperStatus;
+  averageScore: number;
+};
+
+export type DashboardAnalytics = {
+  totalJobsFound: number;
+  totalActiveJobs: number;
+  jobsScrapedToday: number;
+  successRate: number;
+  scrapers: ScraperMetric[];
+};
+
+export type JobFilters = {
+  query: string;
+  sources: ScraperSource[];
+  statuses: JobStatus[];
+  workModes: WorkMode[];
+  companies: string[];
+  locations: string[];
+  minScore: number;
+  minSalary?: number;
+  maxSalary?: number;
+  postedWithinDays?: 1 | 3 | 7 | 30;
+};
+
+export type SavedSearch = {
+  id: string;
+  name: string;
+  filters: Partial<JobFilters>;
+  color: string;
+};
+
+export type RealtimeEvent =
+  | { type: "job.created"; payload: Job }
+  | { type: "job.updated"; payload: Job }
+  | { type: "scraper.completed"; payload: ScraperMetric }
+  | { type: "scraper.failed"; payload: ScraperMetric }
+  | { type: "scoring.completed"; payload: { jobId: string; score: number } };

@@ -1,0 +1,127 @@
+"use client";
+
+import { AnimatePresence, motion } from "framer-motion";
+import { ExternalLink, GitMerge, Trash2, Undo2, X } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { StatusBadge } from "@/components/ui/status-badge";
+import { useDashboardStore } from "@/store/dashboard-store";
+import type { JobStatus } from "@/types/jobs";
+
+const statuses: JobStatus[] = ["UNAPPLIED", "APPLIED", "INTERVIEW", "REJECTED", "OFFER", "EXPIRED", "SAVED"];
+
+export function JobDetailsDrawer() {
+  const job = useDashboardStore((state) => state.selectedJob);
+  const selectJob = useDashboardStore((state) => state.selectJob);
+  const updateStatus = useDashboardStore((state) => state.updateStatus);
+
+  return (
+    <AnimatePresence>
+      {job && (
+        <>
+          <motion.button
+            aria-label="Close job details"
+            className="fixed inset-0 z-40 bg-slate-950/20"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={() => selectJob(undefined)}
+          />
+          <motion.aside
+            className="fixed right-0 top-0 z-50 h-screen w-full max-w-xl overflow-y-auto border-l border-border bg-panel p-5 shadow-soft"
+            initial={{ x: "100%" }}
+            animate={{ x: 0 }}
+            exit={{ x: "100%" }}
+            transition={{ type: "spring", damping: 28, stiffness: 240 }}
+          >
+            <div className="mb-5 flex items-start justify-between gap-4">
+              <div>
+                <div className="mb-2 flex flex-wrap items-center gap-2">
+                  <Badge tone="accent">{job.source}</Badge>
+                  <StatusBadge status={job.status} />
+                  {job.duplicateScore ? <Badge tone="warning">Duplicate {job.duplicateScore}%</Badge> : null}
+                </div>
+                <h2 className="text-xl font-semibold tracking-normal">{job.jobTitle}</h2>
+                <p className="text-sm text-muted">{job.company} · {job.location}</p>
+              </div>
+              <Button size="icon" variant="ghost" onClick={() => selectJob(undefined)} aria-label="Close">
+                <X className="h-4 w-4" />
+              </Button>
+            </div>
+
+            <div className="mb-5 grid grid-cols-4 gap-2 rounded-md border border-border bg-background p-3 text-center">
+              {Object.entries(job.scoreBreakdown).map(([key, value]) => (
+                <div key={key}>
+                  <div className="text-lg font-semibold">{value}</div>
+                  <div className="text-[11px] capitalize text-muted">{key.replace(/([A-Z])/g, " $1")}</div>
+                </div>
+              ))}
+            </div>
+
+            <div className="mb-5 flex flex-wrap gap-2">
+              <Button variant="primary" onClick={() => window.open(job.applyLink, "_blank", "noopener,noreferrer")}>
+                <ExternalLink className="h-4 w-4" />
+                Direct Apply
+              </Button>
+              <select
+                className="h-9 rounded-md border border-border bg-background px-3 text-sm"
+                value={job.status}
+                onChange={(event) => updateStatus(job.id, event.target.value as JobStatus)}
+              >
+                {statuses.map((status) => (
+                  <option key={status} value={status}>
+                    {status}
+                  </option>
+                ))}
+              </select>
+              <Button>
+                <GitMerge className="h-4 w-4" />
+                Merge
+              </Button>
+              <Button>
+                <Undo2 className="h-4 w-4" />
+                Ignore
+              </Button>
+              <Button variant="danger">
+                <Trash2 className="h-4 w-4" />
+                Delete
+              </Button>
+            </div>
+
+            <section className="space-y-5 text-sm">
+              <Block title="GPT Summary">{job.gptSummary}</Block>
+              <Block title="Match Reasoning">{job.gptReasoning}</Block>
+              <Block title="Full Job Description">{job.description}</Block>
+              <Block title="Company Information">{job.companyInfo}</Block>
+              <div>
+                <h3 className="mb-2 text-sm font-semibold">Required Skills</h3>
+                <div className="flex flex-wrap gap-2">
+                  {job.requiredSkills.map((skill) => (
+                    <Badge key={skill}>{skill}</Badge>
+                  ))}
+                </div>
+              </div>
+              <div>
+                <h3 className="mb-2 text-sm font-semibold">Benefits</h3>
+                <ul className="list-inside list-disc space-y-1 text-muted">
+                  {job.benefits.map((benefit) => (
+                    <li key={benefit}>{benefit}</li>
+                  ))}
+                </ul>
+              </div>
+            </section>
+          </motion.aside>
+        </>
+      )}
+    </AnimatePresence>
+  );
+}
+
+function Block({ title, children }: { title: string; children: React.ReactNode }) {
+  return (
+    <div>
+      <h3 className="mb-2 text-sm font-semibold">{title}</h3>
+      <p className="leading-6 text-muted">{children}</p>
+    </div>
+  );
+}
